@@ -2,10 +2,10 @@
  * GQLESS: You can safely modify this file and Query Fetcher based on your needs
  */
 
-import { createClient, QueryFetcher } from 'gqless';
-import {
-	generatedSchema,
-	scalarsEnumsHash,
+import type { QueryFetcher } from 'gqless';
+import { createClient } from 'gqless';
+import { generatedSchema, scalarsEnumsHash } from './schema.generated';
+import type {
 	GeneratedSchema,
 	SchemaObjectTypes,
 	SchemaObjectTypesNames

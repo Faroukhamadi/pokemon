@@ -1,21 +1,23 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
+	import { query, resolved } from '../gqless';
 
-	export const load: Load = async ({ fetch }) => {
-		const url = 'https://pokeapi.co/api/v2/pokemon/ditto';
-		const response = await fetch(url);
+	export const load: Load = async () => {
 		return {
-			status: response.status,
 			props: {
-				ditto: response.ok && (await response.json())
+				data: await resolved(() => {
+					return query.pokemon({ name: 'Machop' })?.id;
+				}).then((data) => {
+					console.log('data: ', data);
+				})
 			}
 		};
 	};
 </script>
 
 <script lang="ts">
-	export let ditto: any;
-	console.log(ditto);
+	export let data: any;
+	console.log('data: ', data);
 </script>
 
 <svelte:head>
