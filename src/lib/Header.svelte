@@ -1,4 +1,8 @@
-<h1>Pokey Land</h1>
+<script>
+	import { goto } from '$app/navigation';
+</script>
+
+<h1 on:click={() => goto('/')}>Pokey Land</h1>
 
 <style>
 	h1 {
@@ -6,7 +10,7 @@
 		font-size: 6rem;
 		font-weight: 900;
 		color: var(--accent-color);
-		cursor: default;
+		cursor: pointer;
 		width: fit-content;
 		margin-left: auto;
 		margin-right: auto;

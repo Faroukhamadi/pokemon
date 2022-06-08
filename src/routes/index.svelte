@@ -7,6 +7,7 @@
 			props: {
 				pokemons: await resolved(() => {
 					return query.pokemons({ first: 12 })?.map((pokemon) => ({
+						id: pokemon?.id,
 						name: pokemon?.name,
 						image: pokemon?.image,
 						maxHP: pokemon?.maxHP
@@ -19,16 +20,11 @@
 
 <script lang="ts">
 	import type { Pokemon } from '../gqless';
+	import { goto } from '$app/navigation';
 
-	type PokemonResponse = Pick<Pokemon, 'name' | 'image' | 'maxHP'>;
+	type PokemonResponse = Pick<Pokemon, 'name' | 'image' | 'maxHP' | 'id'>;
 
 	export let pokemons: PokemonResponse[];
-
-	pokemons.forEach((pokemon, index) => {
-		console.log(`pokemon ${index + 1} name: `, pokemon.name);
-		console.log(`pokemon ${index + 1} image: `, pokemon.image);
-		console.log(`pokemon ${index + 1} maxHP: `, pokemon.maxHP);
-	});
 </script>
 
 <svelte:head>
@@ -39,9 +35,21 @@
 <main>
 	<h1>The Home for PokeAddicts</h1>
 	<div class="card-container">
-		{#each pokemons as { image, name, maxHP }}
+		{#each pokemons as { image, name, maxHP, id }}
 			<div class="card">
-				<img src={image} alt="pok" />
+				<img
+					src={image}
+					alt="pokemon-card"
+					class={id}
+					on:click={(e) => {
+						goto(
+							`/pokemons/${e.currentTarget?.className.substring(
+								0,
+								e.currentTarget?.className.indexOf(' ')
+							)}`
+						);
+					}}
+				/>
 				<p>Name: {name}</p>
 				<p>Max HP: {maxHP}</p>
 			</div>
@@ -76,7 +84,7 @@
 		cursor: default;
 	}
 	.card {
-		background: rgb(105, 100, 90);
+		background: rgb(170, 168, 168);
 		border-radius: 7px;
 		display: flex;
 		flex-direction: column;
@@ -85,6 +93,7 @@
 	}
 
 	img {
+		cursor: pointer;
 		max-width: 50%;
 		max-height: 50%;
 	}
