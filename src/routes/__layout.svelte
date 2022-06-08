@@ -1,13 +1,16 @@
 <script lang="ts">
+	import '../app.css';
+	import Header from '$lib/Header.svelte';
 </script>
+
+<Header />
 
 <main>
 	<slot />
 </main>
 
-<footer>
-	<h3>This is coming from layout</h3>
-</footer>
-
 <style>
+	h3 {
+		font-family: var(--font-mono);
+	}
 </style>
